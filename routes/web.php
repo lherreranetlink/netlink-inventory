@@ -16,6 +16,10 @@ Auth::routes();
 
 Route::get('/user-deleted', 'HomeController@userDeleted');
 
+Route::get('/upload', 'UploadController@uploadForm');
+Route::post('/upload', 'UploadController@uploadSubmit');
+
+Route::resource('/excel-upload-spreadsheet', 'ExcelController');
 
 Route::match(['get', 'post'],'/tag-user/login', [
     'uses'=>'TagController@tagLogin'
@@ -24,16 +28,13 @@ Route::match(['get', 'post'],'/tag-user/login', [
 Route::group(['middleware' => ['tag-auth'],'prefix' => 'tag-user'], function () {
     Route::get('/home', 'TagController@index');
     Route::get('/logout', 'TagController@logout');
-    
-    
-    
+
     //AJAX JSON Response URL................................................
     Route::get('/manufacturers-json', 'Admin\ModelController@getManufacturers');
     Route::get('/categories-json', 'Admin\ModelController@getCategories');
     Route::post('/subcategories-by-category-json', 'Admin\ModelController@getSubCategoriesbyCat');
     Route::post('/childcategories-by-subcategory-json', 'Admin\ModelController@getChildCategoriesbyCat');
-    
-    
+
     //AJAX JSON Location Response URL................................................
     //Route::get('/manufacturers-json', 'Admin\ModelController@getManufacturers');
     Route::get('/locations-json', 'Admin\ModelController@getLocations');
@@ -61,16 +62,14 @@ Route::group(['middleware' => ['tag-auth'],'prefix' => 'tag-user'], function () 
     //Route::get('/checkouts', 'HomeController@checkoutHistory');
     
     //Route::get('/location-changes', 'HomeController@locationChangeHistory');
-    
-    
+
+
     Route::post('/get-checkin-barcode-ajax', 'HomeController@getCheckinByBarcode');
     
     
     //Bulk...........................
     Route::get('/bulk-checkin', 'TagController@bulkCheckin');
     Route::get('/bulk-checkout', 'TagController@bulkCheckout');
-    
-    
     
 });
 

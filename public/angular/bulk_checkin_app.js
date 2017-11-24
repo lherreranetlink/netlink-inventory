@@ -7,10 +7,12 @@ app.controller('bulkCheckinCTRL', function($scope,$http,$window) {
     $scope.sublocation_url = sublocation_url;
     $scope.childlocation_url = childlocation_url;
     $scope.add_checkin_url = add_bulk_checkin_url;
+    //Test Code
+    $scope.excel_upload_spreadsheet_url = excel_upload_url;
+    //
     $scope.url = url;
     $scope.is_sublocation = false;
     $scope.is_childlocation = false;
-    
     
     $scope.getNumber = function(num) {
         return new Array(num);   
@@ -18,8 +20,7 @@ app.controller('bulkCheckinCTRL', function($scope,$http,$window) {
   
     $scope.subLoading = false;
     $scope.childLoading = false;
-    
-    
+
     $scope.selectedLocation = [];
     $scope.selectedSubLocation = [];
     $scope.selectedChildLocation = [];
@@ -30,11 +31,9 @@ app.controller('bulkCheckinCTRL', function($scope,$http,$window) {
     $scope.locations = [];
     $scope.sublocations = [];
     $scope.childlocations = [];
-    
-    
+
     $scope.available_models = [];
-    
-    
+
     $scope.data = {
         manufacturer_id:"",
         model_id:"",
@@ -46,10 +45,11 @@ app.controller('bulkCheckinCTRL', function($scope,$http,$window) {
         number_checkins:2,
         sublocation_id: "",
         childlocation_id: ""
-        
-        
     };
-    
+
+    //Test Code
+    $scope.selectedFile = false;
+    //
     //Get Manufacturers.................................................
     $scope.mfgLoading = true;
     $http.get($scope.mfg_url).then(function mySucces(response) {
@@ -175,7 +175,6 @@ app.controller('bulkCheckinCTRL', function($scope,$http,$window) {
             };
             
             if(response.status==200){
-                //alert("dsf");
                 $window.location.href = $scope.url;
             }
             
@@ -192,8 +191,29 @@ app.controller('bulkCheckinCTRL', function($scope,$http,$window) {
 
     //Code For Test
     $scope.uploadTempFile = function() {
+        var selectedFile = document.getElementById("check-in-spreadsheet")[0];
+        var formData = new FormData();
+        formData.append("selected_file", selectedFile);
+        $http.post($scope.excel_upload_spreadsheet_url, formData).then(function success(response) {
+            $scope.final_result = {
+                content:response.data,
+                statuscode: response.status,
+                statustext:response.statustext
+            };
 
-    }
+            if(response.status==200){
+                //$window.location.href = $scope.url;
+            }
+
+        }, function error(response) {
+            $scope.final_result = {
+                content:response.data,
+                statuscode: response.status,
+                statustext:response.statustext
+            };
+        }).finally(function(){
+        });
+    };
 
     
     

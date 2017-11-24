@@ -24,6 +24,7 @@ Bulk Check-In
     var add_bulk_checkin_url = "{{url('/checkins/add-bulk-process-ajax')}}";
     var model_url = "{{url('/models/get-models-by-mfg-ajax')}}";
     var url = "{{url('/checkins')}}";
+    var excel_upload_url = "{{url('/excel-upload-spreadsheet')}}";
 </script>
 <div class="row " style="margin-top:2px;" ng-controller="bulkCheckinCTRL">
     <div class="col-lg-12">
@@ -99,10 +100,6 @@ Bulk Check-In
                         </select>
                     </div>
 
-
-
-
-
                     <div class="form-group">
                         <label>Location</label> <br>
                         <select style="width: 100%"
@@ -176,15 +173,12 @@ Bulk Check-In
                         </div>
                         <div class="panel-body">
                             <div>
-                                <label for="check-in-spreadsheet">Choose file to upload</label>
-                                <input id="check-in-spreadsheet" type="file"
-                                       accept=".xlsx">
-                                <input type="button" ng-click = "uploadTempFile()" class="btn btn-sm btn-success" value="Upload">
+                                @include("excel_upload_form");
                             </div>
                         </div>
                     </div>
-                    <!-- -->
                 </div>
+                <!-- -->
                 <div class="col-lg-5 col-md-5">
                     <div class="panel">
                         <div class="panel-heading">
